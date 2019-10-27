@@ -1,0 +1,20 @@
+name: DeepStorageUnit
+author: Voidane
+version: 1.0
+main: org.voidane.dsu.Plugin
+description: This plugin allows players to fill chest with unlimited items of a single material or item
+commands:
+     deepstorageunit:
+         description: Usage of command will show arguements of this command
+         usage: /<command>
+     dsu:
+         description: Usage of command will show arguements of this command
+         usage: /<command>
+         
+         # dsu.allow , players can use the /dsu allow command
+         # dsu.interface.interaction , player can interact with deep storage units
+         # dsu.dsu , usage of the /dsu command
+         # dsu.help , get help from dsu
+         # dsu.remove , remove a player from a unit
+         # dsu.give , give a player a unit
+         # dsu.reload

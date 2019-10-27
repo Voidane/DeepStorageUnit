@@ -1,0 +1,79 @@
+# Author: Voidane
+# NOTE: Will be a lot more customizable in the near future so plase up to date a lot may change!
+# Deep Storage Unit , plugin , v1.0 , 10/27/19 
+#
+# YOU MAY ONLY CHANGE THE COLOR
+Storage Unit Name: "&5Deep Storage Unit"
+
+# enable of craft the deep storage unit
+Allow Crafting: true
+   
+# Only have a few worlds you want to disable the plugin in?
+# This is the recommended one to have true then.
+Use Disable Worlds: true
+Disabled Worlds:
+   - ""
+   - ""
+   - ""
+   
+# Have a lot of worlds, but only want the plugin to be enabled in certain worlds?
+# This is recommended to set to true if so.
+Use Enable Worlds: false
+Enabled Worlds:
+   - ""
+   - ""
+   - ""
+   
+   
+# Add items you want to disable here, a list of names material names can be found on the plugin home page.
+Disabled Items:
+   - "IRON_SPADE"
+   - "IRON_PICKAXE"
+   - "IRON_AXE"
+   - "FLINT_AND_STEEL"
+   - "BOW"
+   - "IRON_SWORD"
+   - "WOOD_SWORD"
+   - "WOOD_SPADE"
+   - "WOOD_PICKAXE"
+   - "WOOD_AXE"
+   - "STONE_SWORD"
+   - "STONE_SPADE"
+   - "STONE_PICKAXE"
+   - "STONE_AXE"
+   - "DIAMOND_SWORD"
+   - "DIAMOND_SPADE"
+   - "DIAMOND_PICKAXE"
+   - "DIAMOND_AXE"
+   - "GOLD_SWORD"
+   - "GOLD_SPADE"
+   - "GOLD_PICKAXE"
+   - "GOLD_AXE"
+   - "GOLD_HOE"
+   - "STONE_HOE"
+   - "WOOD_HOE"
+   - "DIAMOND_HOE"
+   - "IRON_HOE"
+   - "LEATHER_HELMET"
+   - "LEATHER_BOOTS"
+   - "LEATHER_LEGGINGS"
+   - "LEATHER_CHESTPLATE"
+   - "CHAINMAIL_HELMET"
+   - "CHAINMAIL_BOOTS"
+   - "CHAINMAIL_LEGGINGS"
+   - "CHAINMAIL_CHESTPLATE"
+   - "IRON_HELMET"
+   - "IRON_BOOTS"
+   - "IRON_LEGGINGS"
+   - "IRON_CHESTPLATE"
+   - "DIAMOND_HELMET"
+   - "DIAMOND_BOOTS"
+   - "DIAMOND_LEGGINGS"
+   - "DIAMOND_CHESTPLATE"
+   - "GOLD_HELMET"
+   - "GOLD_BOOTS"
+   - "GOLD_LEGGINGS"
+   - "GOLD_CHESTPLATE"
+   
+   
+   
