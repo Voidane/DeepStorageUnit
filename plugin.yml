@@ -1,6 +1,6 @@
 name: DeepStorageUnit
 author: Voidane
-version: 1.0
+version: 1.02
 main: org.voidane.dsu.Plugin
 description: This plugin allows players to fill chest with unlimited items of a single material or item
 commands:

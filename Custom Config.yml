@@ -1,0 +1,61 @@
+# Edit the plugin to your liking, much more will be avaliable in updates
+# First Version ersion release 10/29/19
+# !!!!!!!!! You dont need to reload the plugin for these to take effects !!!!!!!!!!!
+Version: 1.02
+Craft Recipe:
+   - "OBSIDIAN"
+   - "OBSIDIAN"
+   - "OBSIDIAN"
+   - "OBSIDIAN"
+   - "ENDER_PEARL"
+   - "OBSIDIAN"
+   - "OBSIDIAN"
+   - "OBSIDIAN"
+   - "OBSIDIAN"
+Deep Storage Unit:
+   Info Comment:
+      - " -| Change the name and lore of the deep storage unit itself, doesnt contend for picked up for units picked up |-"
+      - ""
+      - ""
+   Name: "&cDeep Storage Unit"
+   Lore:
+      - ""
+      - "&7A deep storage unit that can hold unlimited amounts"
+      - "&7of a certain material or item"
+      - ""
+      - "&9Deep Storage Unit"
+No Item In Main Interface:
+  Info Comment:
+  - ' ==| This will change the attributes of the barrier that you see in the main interface when there is no item in it |== '
+  - ''
+  - ''
+  Name: '&cNo Valid Item To Store'
+  Lore:
+  - ''
+  - '&7Insert an item into the empty slot of'
+  - '&7the deep storage unit'
+  - ''
+  - '&f+---------------------+'
+  - '&6Click here to apply the item'
+  - '&6when you have an item ready'
+  - '&f+---------------------+'
+  Material: BARRIER
+  Material ID: 0
+Outline In Unit Inventory:
+  Info Command:
+  - ' -| The outline of the unit chest when interacting with it, for default is black stained glass |-'
+  - ''
+  - ''
+  Name: ' '
+  Amount: 1
+  Material: STAINED_GLASS_PANE
+  Material ID: 15
+Interior In Unit Inventory:
+  Info Command:
+  - ' -| The interior of the unit chest when interacting with it, for default is blue stained glass |-'
+  - ''
+  - ''
+  Name: ' '
+  Amount: 1
+  Material: STAINED_GLASS_PANE
+  Material ID: 11

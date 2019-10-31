@@ -1,5 +1,6 @@
 package org.voidane.dsu.chest;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Bukkit;
@@ -26,8 +27,16 @@ public class ChestInventory {
 		
 		String[] setNoLoreStrings = new String[0];
 		
-		ItemStack  blackStainedGlass = glassItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 15, " ", false, setNoLoreStrings);
-		ItemStack  blueStainedGlass = glassItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 11, " ", false, setNoLoreStrings);
+		File file = new File(plugin.getDataFolder(), "Custom Config.yml");
+		YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+		
+		ItemStack  blackStainedGlass = glassItemStack(Material.getMaterial(configuration.getString("Outline In Unit Inventory.Material")),
+				configuration.getInt("Outline In Unit Inventory.Amount"), (byte) configuration.getInt("Outline In Unit Inventory.Material ID"), 
+				configuration.getString("Outline In Unit Inventory.Name"), false, setNoLoreStrings);
+		
+		ItemStack  blueStainedGlass = glassItemStack(Material.getMaterial(configuration.getString("Interior In Unit Inventory.Material")),
+				configuration.getInt("Interior In Unit Inventory.Amount"), (byte) configuration.getInt("Interior In Unit Inventory.Material ID"), 
+				configuration.getString("Interior In Unit Inventory.Name"), false, setNoLoreStrings);
 		
 		for ( int i = 0 ; i < 9 ; i++ ) {
 			Grabinventory.setItem(i, blackStainedGlass);
@@ -139,12 +148,17 @@ public class ChestInventory {
 				}
 				
 			} else {
-				ItemStack itemStack = new ItemStack(Material.BARRIER);
+
+				YamlConfiguration customConfiguration = YamlConfiguration.loadConfiguration(file);
+				
+				ItemStack itemStack = new ItemStack(Material.getMaterial(customConfiguration.getString("No Item In Main Interface.Material")), 1 , 
+						(byte) customConfiguration.getInt("No Item In Main Interface.Material ID"));
+				
 				ItemMeta itemMeta = itemStack.getItemMeta();
-				itemMeta.setDisplayName(plugin.translateChatColor("&cNo Valid Item To Store"));
-				itemMeta.setLore(Arrays.asList("",plugin.translateChatColor("&7Insert an item into the empty slot of "),plugin.translateChatColor("&7the deep storage unit"),
-						"", plugin.translateChatColor("&f+---------------------+"),plugin.translateChatColor("&6Click here to apply the item "),plugin.translateChatColor("&6when you have an item ready"),
-						plugin.translateChatColor("&f+---------------------+")));
+				itemMeta.setDisplayName(plugin.translateChatColor(customConfiguration.getString("No Item In Main Interface.Name")));
+				
+				List<String> lore = customConfiguration.getStringList("No Item In Main Interface.Lore");
+				itemMeta.setLore(plugin.translateChatColorArray(lore));
 				itemStack.setItemMeta(itemMeta);
 				Grabinventory.setItem(40, itemStack);
 			}

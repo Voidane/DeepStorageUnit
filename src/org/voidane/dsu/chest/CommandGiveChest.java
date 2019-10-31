@@ -1,8 +1,8 @@
 package org.voidane.dsu.chest;
 
-import java.util.Arrays;
-
+import java.io.File;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -24,12 +24,14 @@ public class CommandGiveChest {
 	
 	public ItemStack chestItemStack(int amount) {
 	
+		File file = new File(plugin.getDataFolder(), "Custom Config.yml");
+		YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+		
 		ItemStack itemStack = new ItemStack(Material.ENDER_CHEST, amount);
 		ItemMeta itemMeta  =  itemStack.getItemMeta();
 		
-		itemMeta.setDisplayName(plugin.translateChatColor("&cDeep Storage Unit"));
-		itemMeta.setLore(Arrays.asList("",plugin.translateChatColor("&7A deep storage unit that can hold unlimited  amounts"),plugin.translateChatColor(
-				"&7of a certain material or item"),"",plugin.translateChatColor("&9Deep Storage Unit")));
+		itemMeta.setDisplayName(plugin.translateChatColor(configuration.getString("Deep Storage Unit.Name")));
+		itemMeta.setLore(plugin.translateChatColorArray(configuration.getStringList("Deep Storage Unit.Lore")));
 		
 		itemStack.setItemMeta(itemMeta);
 		

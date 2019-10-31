@@ -22,6 +22,8 @@ public class DSUInteractionInventory implements Listener {
 
 	
 	Plugin plugin;
+	File file;
+	YamlConfiguration configuration;
 	
 	public DSUInteractionInventory(Plugin plugin) {
 		this.plugin = plugin;
@@ -29,8 +31,18 @@ public class DSUInteractionInventory implements Listener {
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@EventHandler
-	public void removeItems(InventoryClickEvent event) {
+	public void removeItemPanel(InventoryClickEvent event) {
 		
 		if (event.getCurrentItem() == null) {
 			return;
@@ -44,7 +56,6 @@ public class DSUInteractionInventory implements Listener {
 		YamlConfiguration getInteractionConfiguration = new FileConfiguration().getInteractionChestConfig();
 		YamlConfiguration getOwnerConfiguration = new FileConfiguration().getChestOwnerConfig();
 		Player player = (Player) event.getWhoClicked();
-		
 		String getLocationString = getInteractionConfiguration.getString(player.getUniqueId().toString()+".Recent Chest Interaction");
 		
 		if (getOwnerConfiguration.getBoolean(getLocationString+".Disallow Usage")) {
@@ -53,19 +64,13 @@ public class DSUInteractionInventory implements Listener {
 		}
 		
 		if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Remove all items") && event.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE) && event.getSlot() == 16) {
-	
-			try {
-				getOwnerConfiguration.save(new File(plugin.getDataFolder(), "Chest Owners.yml"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			//need to reload files or update..?
-			
+
 			getOwnerConfiguration.set(getLocationString+".Material Used", "");
 			getOwnerConfiguration.set(getLocationString+".Material ID", 0);
 			getOwnerConfiguration.set(getLocationString+".Stored", 0);
 			
 			try {
+
 				getOwnerConfiguration.save(new File(plugin.getDataFolder(), "Chest Owners.yml"));
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -73,14 +78,21 @@ public class DSUInteractionInventory implements Listener {
 			player.sendMessage(plugin.translateChatColor("&b[Deep Storage Unit] &fUnit has been cleared"));
 			event.setCancelled(true);
 			player.closeInventory();
-			
-			
 		}
-	
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@EventHandler
-	public void itemPickupUnit(InventoryClickEvent event) {
+	public void itemPickupUnitPanel(InventoryClickEvent event) {
 		
 		if (event.getCurrentItem() == null) {
 			return;
@@ -93,19 +105,15 @@ public class DSUInteractionInventory implements Listener {
 		if (!event.getView().getTitle().contains("Deep Storage Unit")) {
 			return;
 		}
-		
 		Player player = (Player) event.getWhoClicked();
 		YamlConfiguration getLastInteractionConfiguration = new FileConfiguration().getInteractionChestConfig();
 		YamlConfiguration getChestOwnerConfiguration = new FileConfiguration().getChestOwnerConfig();
-		
 		String getChest = getLastInteractionConfiguration.getString(player.getUniqueId().toString()+".Recent Chest Interaction");
-		
 		if (getChestOwnerConfiguration.getBoolean(getChest+".Disallow Usage")) {
 			player.closeInventory();
 			return;
 		}
-		
-		
+				
 		if (event.getSlot() == 10 && event.getCurrentItem().getItemMeta().getDisplayName().contains("Pick-Up Deep Storage Unit")) {
 			for (int i = 0 ; i < player.getInventory().getSize() ; i++) {
 				if (player.getInventory().getItem(i) == null) {
@@ -143,12 +151,9 @@ public class DSUInteractionInventory implements Listener {
 			       org.bukkit.Location loc = new org.bukkit.Location(player.getWorld(), 
 							getLastInteractionConfiguration.getInt(player.getUniqueId().toString()+".X"), getLastInteractionConfiguration.getInt(player.getUniqueId().toString()+".Y"), 
 							getLastInteractionConfiguration.getInt(player.getUniqueId().toString()+".Z"));
-			       
 			       Block block = loc.getBlock();
 			       block.setType(Material.AIR);
-			       
 			       getChestOwnerConfiguration.set(getChest+".Disallow Usage", true);
-			       
 			try {
 				getChestOwnerConfiguration.save(new File(plugin.getDataFolder(),"Chest Owners.yml"));
 				getLastInteractionConfiguration.save(new File(plugin.getDataFolder(), "Interaction Chest.yml"));
@@ -156,11 +161,20 @@ public class DSUInteractionInventory implements Listener {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@EventHandler
-	public void selectionOfItem(InventoryClickEvent event) {
+	public void cancelActionsOnItems(InventoryClickEvent event) {
 	
 		if (event.getCurrentItem() == null) {
 			return;
@@ -186,17 +200,31 @@ public class DSUInteractionInventory implements Listener {
 			player.closeInventory();
 			return;
 		}
-		if (event.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE) && event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(" ") || 
-			event.getSlot() == 40 || event.getCurrentItem().getItemMeta().getDisplayName().contains("Pick-Up Deep Storage Unit") && event.getSlot() == 10 || 
-			event.getCurrentItem().getItemMeta().getDisplayName().contains("How to use the deep storage unit") && event.getSlot() == 4 ||
-			event.getSlot() == 49) {
+		file = new File(plugin.getDataFolder(), "Custom Config.yml");
+		configuration = YamlConfiguration.loadConfiguration(file);
+		
+		if (event.getCurrentItem().getType().equals(Material.getMaterial(configuration.getString("Outline In Unit Inventory.Material"))) && 
+				event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(configuration.getString("Outline In Unit Inventory.Name")) || 
+				event.getCurrentItem().getType().equals(Material.getMaterial(configuration.getString("Interior In Unit Inventory.Material"))) && 
+				event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(configuration.getString("Interior In Unit Inventory.Name"))
+				|| event.getSlot() == 40 || event.getCurrentItem().getItemMeta().getDisplayName().contains("Pick-Up Deep Storage Unit") && event.getSlot() == 10 || 
+				event.getCurrentItem().getItemMeta().getDisplayName().contains("How to use the deep storage unit") && event.getSlot() == 4 ||
+				event.getSlot() == 49) {
 			event.setCancelled(true);
 		}
-
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@EventHandler
-	public void setSelectionItem(InventoryClickEvent event) {
+	public void setItemInSelection(InventoryClickEvent event) {
 		
 		if (event.getCurrentItem() == null) {
 			return;
@@ -205,13 +233,10 @@ public class DSUInteractionInventory implements Listener {
 		if (!event.getView().getTitle().contains("Deep Storage Unit")) {
 			return;
 		}
-		
-
 
 		Player player = (Player) event.getWhoClicked();
 		YamlConfiguration getLastInteractionConfiguration = new FileConfiguration().getInteractionChestConfig();
 		YamlConfiguration getChestOwnerConfiguration = new FileConfiguration().getChestOwnerConfig();
-		
 		String getChest = getLastInteractionConfiguration.getString(player.getUniqueId().toString()+".Recent Chest Interaction");
 
 		if (getChestOwnerConfiguration.getBoolean(getChest+".Disallow Usage")) {
@@ -222,9 +247,8 @@ public class DSUInteractionInventory implements Listener {
 		if (getChestOwnerConfiguration.getString(getChest+".Material Used") == null || getChestOwnerConfiguration.getString(getChest+".Material Used").length() <= 0) {
 			
 			if (event.getInventory().getItem(13) == null) {
-
+				
 			return;	
-			
 			} else {
 				
 				List<String> disableItems = plugin.getConfig().getStringList("Disabled Items");
@@ -233,10 +257,10 @@ public class DSUInteractionInventory implements Listener {
 					player.sendMessage(plugin.translateChatColor("&b[Deep Storage Unit] &fThis item is disabled"));
 					return;
 				}
+				
 				getChestOwnerConfiguration.set(getChest+".Material Used", event.getInventory().getItem(13).getType().toString());
 				getChestOwnerConfiguration.set(getChest+".Material ID", event.getInventory().getItem(13).getDurability());
 				getChestOwnerConfiguration.set(getChest+".Stored", event.getInventory().getItem(13).getAmount());
-				
 				
 				File file = new File(plugin.getDataFolder(), "Chest Owners.yml");
 				try {
@@ -246,7 +270,6 @@ public class DSUInteractionInventory implements Listener {
 				}
 				player.closeInventory();
 			}
-			
 		}
 		
 		if (event.getInventory().getItem(13) == null) {
@@ -256,7 +279,6 @@ public class DSUInteractionInventory implements Listener {
 			getChest = getLastInteractionConfiguration.getString(player.getUniqueId().toString()+".Recent Chest Interaction");
 			if (event.getCurrentItem().getType().toString().equals((getChestOwnerConfiguration.getString(getChest+".Material Used")))){
 			int getAmount = event.getCurrentItem().getAmount();
-			
 			
 			if (event.getClick().toString().equalsIgnoreCase("RIGHT") && event.getCurrentItem().getAmount() > 1) {
 				
@@ -275,7 +297,6 @@ public class DSUInteractionInventory implements Listener {
 					getChestOwnerConfiguration.set(getChest+".Stored", roundOddNum);
 					event.setCancelled(true);
 				}
-				
 				
 			} else if (event.getClick().toString().equalsIgnoreCase("LEFT") || event.getClick().toString().equalsIgnoreCase("SHIFT_LEFT")) {
 				getAmount = getAmount+getChestOwnerConfiguration.getInt(getChest+".Stored");
@@ -301,10 +322,8 @@ public class DSUInteractionInventory implements Listener {
 					
 				if (player.getInventory().getItem(i).getType().toString().equalsIgnoreCase(getChestOwnerConfiguration.getString(getChest+".Material Used").toString())
 						&& player.getInventory().getItem(i).getDurability() == getChestOwnerConfiguration.getInt(getChest+".Material ID")) {
-
 						 int addAmount = getChestOwnerConfiguration.getInt(getChest+".Stored")+player.getInventory().getItem(i).getAmount();
 						 getChestOwnerConfiguration.set(getChest+".Stored", addAmount);
-					
 						 player.getInventory().setItem(i, null);
 				}
 				
@@ -313,11 +332,8 @@ public class DSUInteractionInventory implements Listener {
 			}else {
 				event.setCancelled(true);
 			}
-			
 			player.openInventory(new ChestInventory().getChestInventory(player));
-			
 			File file = new File(plugin.getDataFolder(), "Chest owners.yml");
-			
 			try {
 				getChestOwnerConfiguration.save(file);
 			} catch (IOException e) {
@@ -326,6 +342,17 @@ public class DSUInteractionInventory implements Listener {
 			}
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@EventHandler
 	public void exportItems(InventoryClickEvent event) {
@@ -353,9 +380,6 @@ public class DSUInteractionInventory implements Listener {
 				
 				
 				int stored = getChestOwnerConfiguration.getInt(getChest+".Stored");
-				
-				
-
 					if (event.getClick().toString().equalsIgnoreCase("LEFT")) {
 						if (stored > 63) {
 						for (int i = 0; i < player.getInventory().getSize() ; i++ ) {
@@ -448,7 +472,7 @@ public class DSUInteractionInventory implements Listener {
 					getChestOwnerConfiguration.save(new File(plugin.getDataFolder(), "Chest Owners.yml"));
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
+			}
 		}
 	}
 }

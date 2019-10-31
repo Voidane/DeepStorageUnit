@@ -1,5 +1,6 @@
 package org.voidane.dsu;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Bukkit;
@@ -7,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +22,8 @@ import org.voidane.dsu.event.DSUplacement;
 
 public class Plugin extends JavaPlugin {
 
+	public String version = "1.02";
+	
 	public Plugin() {
 		
 	}
@@ -36,12 +40,24 @@ public class Plugin extends JavaPlugin {
 		" Breaking Units.class , Unit Crafting Recipe.class");
 		Bukkit.getServer().getConsoleSender().sendMessage("[Deep Storage Unit] Successfully triggered packages from the ide: org.voidane.dsu , org.voidane.dsu.chest , " + 
 		"org.voidane.dsu.event");
-		Bukkit.getServer().getConsoleSender().sendMessage("[Deep Storage Unit] Using version v1.0 , by Author: Voidane");
+		Bukkit.getServer().getConsoleSender().sendMessage("[Deep Storage Unit] Using version v1.02 , by Author: Voidane");
 		
 		ShapedRecipe craftDSU = new ShapedRecipe(new CommandGiveChest().chestItemStack(1));
-		craftDSU.shape("%%%","%*%","%%%");
-		craftDSU.setIngredient('%', Material.OBSIDIAN);
-		craftDSU.setIngredient('*', Material.ENDER_PEARL);
+		
+		File file = new File(getDataFolder(), "Custom Config.yml");
+		YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+		
+		craftDSU.shape("!@#","$%^","&*+");
+		
+		craftDSU.setIngredient('!', Material.getMaterial(configuration.getStringList("Craft Recipe").get(0)));
+		craftDSU.setIngredient('@', Material.getMaterial(configuration.getStringList("Craft Recipe").get(1)));
+		craftDSU.setIngredient('#', Material.getMaterial(configuration.getStringList("Craft Recipe").get(2)));
+		craftDSU.setIngredient('$', Material.getMaterial(configuration.getStringList("Craft Recipe").get(3)));
+		craftDSU.setIngredient('%', Material.getMaterial(configuration.getStringList("Craft Recipe").get(4)));
+		craftDSU.setIngredient('^', Material.getMaterial(configuration.getStringList("Craft Recipe").get(5)));
+		craftDSU.setIngredient('&', Material.getMaterial(configuration.getStringList("Craft Recipe").get(6)));
+		craftDSU.setIngredient('*', Material.getMaterial(configuration.getStringList("Craft Recipe").get(7)));
+		craftDSU.setIngredient('+', Material.getMaterial(configuration.getStringList("Craft Recipe").get(8)));
 		
 		Bukkit.getServer().addRecipe(craftDSU);
 		
@@ -316,6 +332,14 @@ public class Plugin extends JavaPlugin {
 			return true;
 		}
 		return false;
+	}
+
+	public List<String> translateChatColorArray(List<String> lore) {
+		
+		for ( int i = 0 ; i < lore.size() ; i++ ) {
+			lore.set(i, ChatColor.translateAlternateColorCodes('&', lore.get(i)));
+		}
+		return lore;
 	}
 	
 	
