@@ -30,6 +30,9 @@ public class DSUplacement implements Listener {
 			return;
 		}
 		
+		if (!event.getItemInHand().hasItemMeta()) {
+			return;
+		}
 		
 		if (!event.getItemInHand().hasItemMeta() && !event.getItemInHand().getItemMeta().getDisplayName().contentEquals("Deep Storage Unit")) {
 			return;
